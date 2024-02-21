@@ -107,20 +107,20 @@ install_V2bX() {
     cd /usr/local/V2bX/
     
     if  [ $# == 0 ] ;then
-        last_version=$(curl -Ls "https://api.github.com/repos/wyx2685/V2bX/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        last_version=$(curl -Ls "https://api-gh.1l1.icu/repos/wyx2685/V2bX/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$last_version" ]]; then
             echo -e "${red}检测 V2bX 版本失败，可能是超出 Github API 限制，请稍后再试，或手动指定 V2bX 版本安装${plain}"
             exit 1
         fi
         echo -e "检测到 V2bX 最新版本：${last_version}，开始安装"
-        wget -N --no-check-certificate -O /usr/local/V2bX/V2bX-linux.zip https://github.com/wyx2685/V2bX/releases/download/${last_version}/V2bX-linux-${arch}.zip
+        wget -N --no-check-certificate -O /usr/local/V2bX/V2bX-linux.zip https://proxy-gh.1l1.icu/github.com/wyx2685/V2bX/releases/download/${last_version}/V2bX-linux-${arch}.zip
         if [[ $? -ne 0 ]]; then
             echo -e "${red}下载 V2bX 失败，请确保你的服务器能够下载 Github 的文件${plain}"
             exit 1
         fi
     else
         last_version=$1
-        url="https://github.com/wyx2685/V2bX/releases/download/${last_version}/V2bX-linux-${arch}.zip"
+        url="https://proxy-gh.1l1.icu/github.com/wyx2685/V2bX/releases/download/${last_version}/V2bX-linux-${arch}.zip"
         echo -e "开始安装 V2bX $1"
         wget -q -N --no-check-certificate -O /usr/local/V2bX/V2bX-linux.zip ${url}
         if [[ $? -ne 0 ]]; then
@@ -134,7 +134,7 @@ install_V2bX() {
     chmod +x V2bX
     mkdir /etc/V2bX/ -p
     rm /etc/systemd/system/V2bX.service -f
-    file="https://github.com/114514-homo-lab/V2bX-script/raw/master/V2bX.service"
+    file="https://proxy-gh.1l1.icu/114514-homo-lab/V2bX-script/raw/master/V2bX.service"
     wget -q -N --no-check-certificate -O /etc/systemd/system/V2bX.service ${file}
     #cp -f V2bX.service /etc/systemd/system/
     systemctl daemon-reload
